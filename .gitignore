@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-/front_defi_prin/node_modules
+/FE_Defi/node_modules
 /.pnp
 .pnp.js
 
