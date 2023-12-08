@@ -12,7 +12,7 @@ module.exports = {
         'inter':['var(--font-inter)'],
       },
       colors: {
-        'C1': '#F2E205',
+        'C1': '#016A70',
         'C2': '#32173C',
         'C3': '#F2CB05',
         'C4': '#A60C34',
