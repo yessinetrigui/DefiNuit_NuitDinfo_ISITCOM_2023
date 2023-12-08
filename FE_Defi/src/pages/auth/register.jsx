@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import 'lazysizes';
 import { useState } from "react";
 import { redirect } from "react-router-dom";
@@ -9,6 +9,7 @@ import { CookiesProvider, useCookies } from "react-cookie";
 
 function Register() {
     const [cookies, setCookie] = useCookies(["user"]);
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         name: 'xxxx',
@@ -33,8 +34,14 @@ function Register() {
           if (response.ok) {
             response.json().then(data => {
                 const token = data.token;
+                const pseudo = formData.pseudo;
+
                 setCookie("token", token, { path: "/" });
+                setCookie("pseudo", pseudo, { path: "/" });
+
                 console.log(token);
+                navigate("/form", { replace: true });
+
                 // You can use the token here as needed, for example, storing it or using it for authentication
                 // return redirect("/user");
             }).catch(error => {

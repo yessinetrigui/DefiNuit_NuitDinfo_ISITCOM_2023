@@ -1,8 +1,60 @@
-import React from "react";
-import {Link} from 'react-router-dom';
+import React, { useState } from "react";
+import {Link, useNavigate} from 'react-router-dom';
 import 'lazysizes';
+import { useCookies } from "react-cookie";
 
 function NavBar() {
+    const [cookies, setCookie] = useCookies(["user"]);
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        pseudo: '',
+        password: ''
+      });
+
+      const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+          const response = await fetch('http://localhost:4000/users/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+          });
+
+          if (response.ok) {
+            response.json().then(data => {
+                const token = data.token;
+                const pseudo = formData.pseudo;
+                setCookie("token", token, { path: "/" });
+                setCookie("pseudo", pseudo, { path: "/" });
+                console.log(token);
+                navigate("/user", { replace: true });
+
+                // You can use the token here as needed, for example, storing it or using it for authentication
+                // return redirect("/user");
+            }).catch(error => {
+                console.error('Error parsing JSON:', error);
+            });
+
+          } else {
+            console.error('Failed to register user.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+
+      const handleChange = (event) => {
+        setFormData({
+          ...formData,
+          [event.target.id]: event.target.value
+        });
+      };
+
+
 
   return (
 
@@ -20,15 +72,17 @@ function NavBar() {
 
       <h1 className="text-3xl md:text-3xl font-bold leading-tight mt-12 font-pop ">Connecter a votre compte</h1>
 
-      <form className="mt-6" action="#" method="POST">
+      <form className="mt-6" action="#" method="POST" onSubmit={handleSubmit}>
         <div>
           <label className="block text-gray-700 font-pop">Adresse e-mail</label>
-          <input type="email" name="" id="x" placeholder="Entrer l'adresse e-mail" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autoFocus  required />
+          <input type="email" name=""  value={formData.pseudo}
+            onChange={handleChange} id="pseudo" placeholder="Entrer l'adresse e-mail" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autoFocus  required />
         </div>
 
         <div className="mt-4">
           <label className="block text-gray-700 font-pop">Mot de Passe</label>
-          <input type="password" name="" id="d" placeholder="Entrer le mot de passe" minLength="6" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
+          <input type="password" name="" value={formData.password}
+            onChange={handleChange} id="password"  placeholder="Entrer le mot de passe" minLength="6" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
                 focus:bg-white focus:outline-none" required />
         </div>
 
