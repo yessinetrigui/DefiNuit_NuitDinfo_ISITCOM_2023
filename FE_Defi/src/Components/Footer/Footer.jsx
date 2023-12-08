@@ -17,7 +17,7 @@ function Footer() {
                 <div className="lg:max-w-[1400px] px-12 mx-auto flex  justify-evenly lg:flex-row flex-col gap-5">
                     <div className="flex items-start flex-col w-fit">
                         <div>
-                            <h1 className="text-6xl font-monta font-bold uppercase">PENGUINIZE</h1>
+                            <h1 className="text-6xl font-monta font-bold uppercase">XD</h1>
                             <h2 className="text-lg font-monta font-light uppercase">We Share Fun</h2>
                         </div>
                         <div className="my-4">

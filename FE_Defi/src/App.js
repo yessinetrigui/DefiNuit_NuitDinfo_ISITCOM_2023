@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import NavBar from './Components/navBar/NavBar';
-import { Dialog, RadioGroup } from '@headlessui/react'
+import { Dialog} from '@headlessui/react'
 import { useState } from 'react';
 
 
@@ -25,7 +25,7 @@ function App() {
         <NavBar/>
       <main className="2xl:max-w-[1600px] 1xl:max-w-[1250px] xl:max-w-[1100px] w-[95%] mx-auto py-12  lg:py-48">
             <h1 className='lg:text-6xl text-xl text-C1 font-pop font-bold text-center uppercase leading-snug'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h1>
-            <h2 className='font-pop font-semibold text-lg text-center mt-12'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</h2>
+            <h1 className='font-pop font-semibold text-lg text-center mt-12'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</h1>
             <div className='flex mx-auto  justify-center items-center lg:flex-row flex-col mt-12 gap-6'>
             <Link className="bg-C1 px-32  lg:py-5 py-2  rounded-full font-pop text-lg w-fit  text-white">S’inscrire</Link>
             <Link className="border-C1 border-2 text-C1  px-32  lg:py-5 py-2  lg:mt-0  rounded-full font-pop text-lg w-fit  ">Our Goals</Link>
@@ -84,8 +84,8 @@ function MyDialog({currentQuestions, setCurrentQuestions, CurentData, setCurentD
             {/* The actual dialog panel  */}
             <Dialog.Panel className="mx-auto   bg-white  shadow-xl rounded-xl p-24 max-w-5xl">
               <Dialog.Title>
-                    <h1 className='text-C1 font-pop font-bold text-xl  text-center'>Remplir le formulaire pour continuer</h1>
-                    <h2 className='font-pop font-semibold text-black text-lg text-center mt-2'>Repondre de cette questionaire</h2>
+                    <span className='text-C1 font-pop font-bold text-xl  text-center block'>Remplir le formulaire pour continuer</span>
+                    <span className='font-pop font-semibold text-black text-lg text-center mt-2 block'>Repondre de cette questionaire</span>
 
               </Dialog.Title>
 
@@ -94,17 +94,17 @@ function MyDialog({currentQuestions, setCurrentQuestions, CurentData, setCurentD
                 currentQuestions.map((e)=>{
                             x++
                                 return (
-                                    <div className='mt-5'>
+                                    <div className='mt-5' key={x}>
                                     <h1 className='text-C1 font-pop font-medium text-xl  text-start mb-2'>{x +" " + e.question}</h1>
                                         {e.choices.map((x)=>{
                                                 return(
-                                                <div className='flex gap-2'>
-                                                    <input type='radio' name={e.question} checked={CurentData[e.question] === x && !reset} onClick={()=>{setCurentData(
+                                                <div className='flex gap-2' key={x}>
+                                                    <input type='radio' name={e.question} checked={CurentData[e.question] === x && !reset} onChange={()=>{setCurentData(
                                                         CurentData => ({
                                                             ...CurentData,
                                                             [e.question]: x
                                                           }))}}/>
-                                                    <h3>{x}</h3>
+                                                    <h1>{x}</h1>
                                                 </div>
                                                 )
                                             })}
