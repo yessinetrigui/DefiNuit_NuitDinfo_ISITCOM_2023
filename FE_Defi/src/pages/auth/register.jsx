@@ -1,8 +1,61 @@
 import React from "react";
 import {Link} from 'react-router-dom';
 import 'lazysizes';
+import { useState } from "react";
+import { redirect } from "react-router-dom";
+import { CookiesProvider, useCookies } from "react-cookie";
 
-function NavBar() {
+
+
+function Register() {
+    const [cookies, setCookie] = useCookies(["user"]);
+
+    const [formData, setFormData] = useState({
+        name: 'xxxx',
+        pseudo: '',
+        email: '',
+        role: 'user',
+        password: ''
+      });
+
+      const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+          const response = await fetch('http://localhost:4000/users/signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+          });
+
+          if (response.ok) {
+            response.json().then(data => {
+                const token = data.token;
+                setCookie("token", token, { path: "/" });
+                console.log(token);
+                // You can use the token here as needed, for example, storing it or using it for authentication
+                // return redirect("/user");
+            }).catch(error => {
+                console.error('Error parsing JSON:', error);
+            });
+
+          } else {
+            console.error('Failed to register user.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+
+      const handleChange = (event) => {
+        setFormData({
+          ...formData,
+          [event.target.id]: event.target.value
+        });
+      };
+
 
 
   return (
@@ -21,21 +74,24 @@ function NavBar() {
 
       <h1 className="text-xl md:text-2xl font-black leading-tight mt-12 font-pop ">Crée une compte</h1>
 
-      <form className="mt-6" action="#" method="POST">
+      <form className="mt-6" action="#" method="POST" onSubmit={handleSubmit}>
 
       <div>
           <label className="block text-gray-700 font-pop">Nom utilisateur</label>
-          <input type="email" name="" id="nuser" placeholder="Entrer le Nom utilisateur" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autoFocus  required />
+          <input type="text" name="" id="pseudo"  value={formData.pseudo}
+            onChange={handleChange}  placeholder="Entrer le Nom utilisateur" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autoFocus  required />
         </div>
 
         <div  className="mt-4">
           <label className="block text-gray-700 font-pop">Email Address</label>
-          <input type="email" name="" id="em" placeholder="Entrer l'adresse e-mail" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autoFocus  required />
+          <input type="email" name=""   value={formData.email}
+            onChange={handleChange} id="email" placeholder="Entrer l'adresse e-mail" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autoFocus  required />
         </div>
 
         <div className="mt-4">
           <label className="block text-gray-700 font-pop">Mot de Passe</label>
-          <input type="password" name="" id="mdp" placeholder="Entrer le mot de passe" minLength="6" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
+          <input type="password" name=""  value={formData.password}
+            onChange={handleChange} id="password" placeholder="Entrer le mot de passe" minLength="6" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
                 focus:bg-white focus:outline-none" required />
         </div>
 
@@ -55,4 +111,4 @@ function NavBar() {
 );
 }
 
-export default NavBar;
+export default Register;
