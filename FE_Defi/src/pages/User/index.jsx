@@ -24,7 +24,7 @@ export default function Index() {
         }
         const getData = async () =>{
             try {
-                const response = await fetch('http://localhost:4000/advice/getData/'+cookies.pseudo, {
+                const response = await fetch('http://20.199.18.123:4000/advice/getData/'+cookies.pseudo, {
                   method: 'GET',
                   headers: {
                     'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ export default function Index() {
               }
 
               try {
-                const response = await fetch('http://localhost:4000/tasks/user/'+cookies.pseudo, {
+                const response = await fetch('http://20.199.18.123:4000/tasks/user/'+cookies.pseudo, {
                   method: 'GET',
                   headers: {
                     'Content-Type': 'application/json'
@@ -96,7 +96,7 @@ async function  ConfirmTask(idTask){
     const [cookies, setCookie, removeCookie] = useCookies(['token', 'pseudo']);
 
     try {
-        const response = await fetch('http://localhost:4000/tasks/complete/'+cookies.pseudo+"/"+idTask, {
+        const response = await fetch('http://20.199.18.123:4000/tasks/complete/'+cookies.pseudo+"/"+idTask, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'

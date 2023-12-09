@@ -16,7 +16,7 @@ function NavBar() {
         event.preventDefault();
 
         try {
-          const response = await fetch('http://localhost:4000/users/login', {
+          const response = await fetch('http://20.199.18.123:4000/users/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
